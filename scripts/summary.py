@@ -7,10 +7,12 @@ import pandas as pd
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--avg_score-dir", type=str, default="benchmark_root")
+    parser.add_argument("--num-sample", type=int, default=100)
     args = parser.parse_args()
 
     models = [
         "mistral-7b-instruct-v0.2",
+        "llama3.1-8b-instruct",
         "llama3.1-405b-instruct",
         "llama3.1-405b-instruct-fp8",
     ]
@@ -19,7 +21,7 @@ if __name__ == "__main__":
     
     for model in models:
         avg_score[model] = {}
-        dirpath = os.path.join(args.avg_score_dir, f"{model}/synthetic")
+        dirpath = os.path.join(args.avg_score_dir, f"{args.num_sample}samples/{model}/synthetic")
         for filename in glob.glob(f"{dirpath}/**/pred/summary.csv", recursive=True):
             seqlen = int(filename.split("/")[-3])
             with open(filename, "r") as f:

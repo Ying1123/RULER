@@ -45,6 +45,11 @@ MODEL_SELECT() {
             MODEL_TEMPLATE_TYPE="meta-chat"
             MODEL_FRAMEWORK="sglang"
             ;;
+        mixtral-8x7b-instruct-v0.1)
+            MODEL_PATH="mistralai/Mixtral-8x7B-Instruct-v0.1"
+            MODEL_TEMPLATE_TYPE="base"
+            MODEL_FRAMEWORK="sglang"
+            ;;
         gpt-3.5-turbo)
             MODEL_PATH="gpt-3.5-turbo-0125"
             MODEL_TEMPLATE_TYPE="base"
