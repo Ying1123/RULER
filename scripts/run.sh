@@ -24,10 +24,9 @@ fi
 
 # Root Directories
 GPUS="1" # GPU size for tensor_parallel.
-ROOT_DIR="benchmark_root" # the path that stores generated task samples and model predictions.
 MODEL_DIR="../.." # the path that contains individual model folders from HUggingface.
 ENGINE_DIR="." # the path that contains individual engine folders from TensorRT-LLM.
-BATCH_SIZE=1  # increase to improve GPU utilization
+BATCH_SIZE=1000  # increase to improve GPU utilization
 
 
 # Model and Tokenizer
@@ -57,31 +56,41 @@ if [ -z "${TASKS}" ]; then
     exit 1
 fi
 
+ROOT_DIR="benchmark_root/${NUM_SAMPLES}samples" # the path that stores generated task samples and model predictions.
+SEQ_LENGTHS=(
+    # 131072
+    128000
+    65536
+    32768
+    16384
+    8192
+    4096
+)
 
 # Start server (you may want to run in other container.)
-if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
-    python pred/serve_vllm.py \
-        --model=${MODEL_PATH} \
-        --tensor-parallel-size=${GPUS} \
-        --dtype bfloat16 \
-        --disable-custom-all-reduce \
-        &
-
-elif [ "$MODEL_FRAMEWORK" == "trtllm" ]; then
-    python pred/serve_trt.py \
-        --model_path=${MODEL_PATH} \
-        &
-
-elif [ "$MODEL_FRAMEWORK" == "sglang" ]; then
-    python -m sglang.launch_server \
-        --model-path ${MODEL_PATH} \
-        --tp ${GPUS} \
-        --port 5000 \
-        --enable-flashinfer \
-        &
-    # use sglang/test/killall_sglang.sh to kill sglang server if it hangs
-
-fi
+# if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
+#     python pred/serve_vllm.py \
+#         --model=${MODEL_PATH} \
+#         --tensor-parallel-size=${GPUS} \
+#         --dtype bfloat16 \
+#         --disable-custom-all-reduce \
+#         &
+# 
+# elif [ "$MODEL_FRAMEWORK" == "trtllm" ]; then
+#     python pred/serve_trt.py \
+#         --model_path=${MODEL_PATH} \
+#         &
+# 
+# elif [ "$MODEL_FRAMEWORK" == "sglang" ]; then
+#     python -m sglang.launch_server \
+#         --model-path ${MODEL_PATH} \
+#         --tp ${GPUS} \
+#         --port 5000 \
+#         --enable-flashinfer \
+#         &
+#     # use sglang/test/killall_sglang.sh to kill sglang server if it hangs
+# 
+# fi
 
 
 # Start client (prepare data / call model API / obtain final metrics)

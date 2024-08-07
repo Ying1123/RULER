@@ -184,6 +184,44 @@ class SGLClient(Client):
         outputs = outputs['text']
         return outputs
 
+    # async def _send_request(
+    #     self, prompts, tokens_to_generate, temperature, top_p, top_k, random_seed, stop: List[str],
+    # ):
+    #     headers = {"User-Agent": "Benchmark Client"}
+    #     params = {
+    #         "max_new_tokens": tokens_to_generate,
+    #         "temperature": temperature,
+    #         "top_k": top_k,
+    #         "top_p": top_p,
+    #         "stop": stop,
+    #     }
+    #     pload = {
+    #         "text": prompts[0],
+    #         "sampling_params": params,
+    #     }
+
+    #     api_url = api_url = f"{self.server_host}:{self.server_port}/generate"
+
+    #     timeout = aiohttp.ClientTimeout(total=3 * 3600)
+    #     async with aiohttp.ClientSession(timeout=timeout) as session:
+    #         while True:
+    #             async with session.post(
+    #                 api_url, headers=headers, json=pload
+    #             ) as response:
+    #                 chunks = []
+    #                 async for chunk, _ in response.content.iter_chunks():
+    #                     chunks.append(chunk)
+    #             output = b"".join(chunks).decode("utf-8")
+    #             output = json.loads(output)
+
+    #             # Re-send the request if it failed.
+    #             if "error" not in output:
+    #                 break
+    #             else:
+    #                 print(output)
+    #     output = output['text']
+    #     return output
+
 
 class OpenAIClient:
     def __init__(

@@ -30,10 +30,25 @@ MODEL_SELECT() {
     ENGINE_DIR=$3
     
     case $MODEL_NAME in
-        llama2-7b-chat)
-            MODEL_PATH="${MODEL_DIR}/llama2-7b-chat-hf"
+        llama3.1-405b-instruct)
+            MODEL_PATH="meta-llama/Meta-Llama-3.1-405B-Instruct"
             MODEL_TEMPLATE_TYPE="meta-chat"
-            MODEL_FRAMEWORK="vllm"
+            MODEL_FRAMEWORK="sglang"
+            ;;
+        llama3.1-405b-instruct-fp8)
+            MODEL_PATH="meta-llama/Meta-Llama-3.1-405B-Instruct-FP8"
+            MODEL_TEMPLATE_TYPE="meta-chat"
+            MODEL_FRAMEWORK="sglang"
+            ;;
+        llama3.1-8b-instruct)
+            MODEL_PATH="meta-llama/Meta-Llama-3.1-8B-Instruct"
+            MODEL_TEMPLATE_TYPE="meta-chat"
+            MODEL_FRAMEWORK="sglang"
+            ;;
+        mixtral-8x7b-instruct-v0.1)
+            MODEL_PATH="mistralai/Mixtral-8x7B-Instruct-v0.1"
+            MODEL_TEMPLATE_TYPE="base"
+            MODEL_FRAMEWORK="sglang"
             ;;
         gpt-3.5-turbo)
             MODEL_PATH="gpt-3.5-turbo-0125"
